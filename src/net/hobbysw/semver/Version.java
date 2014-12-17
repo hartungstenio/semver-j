@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Implements the Semantic Versioning scheme.
  * 
- * @author Christian Hartung <chrishartung+semver-j at outlook.com>
+ * @author Christian Hartung
  *
  */
 public class Version {
@@ -51,17 +51,9 @@ public class Version {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		}
-		
-		if (obj == this) {
-			return true;
-		}
-		
-		if (!(obj instanceof Version)) {
-		     return false;
-		}
+		if (obj == this)return true;
+		if (obj == null) return false;
+		if (!(obj instanceof Version)) return false;
 		
 		Version v = (Version)obj;
 
@@ -75,10 +67,22 @@ public class Version {
 	
 	@Override
 	public int hashCode() {
-		return (((17 * 37) + getMajor()) * 37 + getMinor()) * 37 + getPatch();
+		final int multiplier = 37;
+		
+		int result = 17;
+		result = multiplier * result + major;
+		result = multiplier * result + minor;
+		result = multiplier * result + patch;
+		result = multiplier * result + preReleaseIdentifiers.hashCode();
+		result = multiplier * result + buildMetadata.hashCode();
+		return result;
 	}
 	
-	public static Version valueOf(String str) {
+	public static Version valueOf(String str) throws VersionFormatException {
+		if(str == null) {
+			throw new VersionFormatException("null");
+		}
+		
 		String build = null;
 		String preRelease = null;
 		int major, minor, patch;
@@ -95,7 +99,7 @@ public class Version {
 		
 		parts = parts[0].split("\\.");
 		if(parts.length != 3) {
-			throw new IllegalArgumentException("Invalid version number: " + str);
+			throw VersionFormatException.forInputString(str);
 		}
 		
 		major = Integer.parseInt(parts[0]);
