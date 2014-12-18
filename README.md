@@ -45,7 +45,7 @@ comparer.compare(version, other); // version greater than other
 
 ## Problems?
 
-If you find any issues please [report them](issues) or better, send a [pull request](pull-requests).
+If you find any issues please [report them](https://bitbucket.org/chrishartung/semver-j/issues) or better, send a [pull request](https://bitbucket.org/chrishartung/semver-j/pull-requests).
 
 ## Authors:
 * Christian Hartung

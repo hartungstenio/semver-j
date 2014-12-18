@@ -3,6 +3,13 @@ package net.hobbysw.semver;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Implements the standard and complete {@link Version} comparison scheme, considering MAJOR, MINOR,
+ * PATCH and pre-release identifiers. 
+ * 
+ * @author Christian Hartung <hartung@unicamp.br>
+ *
+ */
 public class VersionComparator implements Comparator<Version> {
 
 	@Override

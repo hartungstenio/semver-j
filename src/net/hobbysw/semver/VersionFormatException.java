@@ -26,7 +26,7 @@ public class VersionFormatException extends IllegalArgumentException {
     public VersionFormatException(String s) {
     	super(s);
     }
-
+    
     /**
      * Factory method for making a <code>VersionFormatException</code>
      * given the specified input which caused the error.
