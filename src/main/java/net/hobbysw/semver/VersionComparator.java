@@ -1,3 +1,14 @@
+/*
+ * This file is part of the SemVer-J project.
+ * Copyright (c) 2015 Christian Hartung
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the MIT License
+ * which accompanies this distribution.
+ *
+ * Contributors:
+ *     Christian Hartung - initial API and implementation
+ */
 package net.hobbysw.semver;
 
 import java.util.Comparator;
