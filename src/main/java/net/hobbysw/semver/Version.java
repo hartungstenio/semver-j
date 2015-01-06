@@ -20,7 +20,7 @@ import java.util.List;
  * @author Christian Hartung
  *
  */
-public class Version {
+public class Version implements Comparable<Version> {
 	private int major;
 	private int minor;
 	private int patch;
@@ -231,5 +231,16 @@ public class Version {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public int compareTo(Version other) {
+		int i = ComparisonHelpers.compareVersionNumbers(this, other);
+		
+		if(i == 0) {
+			i = ComparisonHelpers.comparePreReleaseIdentifiers(this.preReleaseIdentifiers, other.preReleaseIdentifiers);
+		}
+		
+		return i;
 	}
 }

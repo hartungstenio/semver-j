@@ -11,11 +11,15 @@
  */
 package net.hobbysw.semver;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
 
 public class VersionTest extends Version {
 	private static final String VERSION_TO_TEST = "1.0.2-alpha.1+longhorn.internal";
+	private static final List<String> LIST_OF_VERSIONS = Arrays.asList("1.0.0-alpha", "1.0.0-alpha.1", "1.0.0-alpha.beta", "1.0.0-beta", "1.0.0-beta.2", "1.0.0-beta.11", "1.0.0-rc.1", "1.0.0");
 
 	@Test(expected = VersionFormatException.class)
 	public void versionParsingShouldFailOnNull() {
@@ -61,5 +65,34 @@ public class VersionTest extends Version {
 	@Test
 	public void versionShouldConvertToString() {
 		Assert.assertEquals(Version.valueOf(VERSION_TO_TEST).toString(), VERSION_TO_TEST);
+	}
+	
+	@Test
+	public void versionsShouldBeAscending() {
+		for(int i = 0; i < LIST_OF_VERSIONS.size() - 1; i++) {
+			Version v1 = Version.valueOf(LIST_OF_VERSIONS.get(i));
+			Version v2 = Version.valueOf(LIST_OF_VERSIONS.get(i + 1));
+			Assert.assertTrue(v1.compareTo(v2) < 0);
+		}
+	}
+	
+	@Test
+	public void versionsShouldBeDescending() {
+		for(int i = LIST_OF_VERSIONS.size() - 1; i > 0; i--) {
+			Version v1 = Version.valueOf(LIST_OF_VERSIONS.get(i));
+			Version v2 = Version.valueOf(LIST_OF_VERSIONS.get(i - 1));
+			Assert.assertTrue(v1.compareTo(v2) > 0);
+		}
+	}
+	
+	@Test
+	public void versionsShouldBeEquals() {
+		List<String> versions = Arrays.asList("1.0.0-alpha", "1.0.0-alpha+1", "1.0.0-alpha+2", "1.0.0-alpha+build.1");
+		
+		for(int i = 0; i < versions.size() - 1; i++) {
+			Version v1 = Version.valueOf(versions.get(i));
+			Version v2 = Version.valueOf(versions.get(i + 1));
+			Assert.assertEquals(v1.compareTo(v2), 0);
+		}
 	}
 }
