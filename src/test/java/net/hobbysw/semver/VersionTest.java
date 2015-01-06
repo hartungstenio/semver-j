@@ -87,7 +87,7 @@ public class VersionTest extends Version {
 	
 	@Test
 	public void versionsShouldBeEquals() {
-		List<String> versions = Arrays.asList("1.0.0-alpha", "1.0.0-alpha+1", "1.0.0-alpha+2", "1.0.0-alpha+build.1");
+		final List<String> versions = Arrays.asList("1.0.0-alpha", "1.0.0-alpha+1", "1.0.0-alpha+2", "1.0.0-alpha+build.1");
 		
 		for(int i = 0; i < versions.size() - 1; i++) {
 			Version v1 = Version.valueOf(versions.get(i));
