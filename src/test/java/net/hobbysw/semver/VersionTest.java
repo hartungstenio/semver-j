@@ -95,4 +95,34 @@ public class VersionTest extends Version {
 			Assert.assertEquals(v1.compareTo(v2), 0);
 		}
 	}
+	
+	@Test
+	public void validateVersions() {
+		Assert.assertTrue(Version.isValid("1.9.0"));
+		Assert.assertTrue(Version.isValid("0.10.0"));
+		Assert.assertFalse(Version.isValid("01.9.0"));
+		Assert.assertFalse(Version.isValid("1.09.0"));
+		Assert.assertFalse(Version.isValid("1.9.00"));
+		Assert.assertTrue(Version.isValid("1.0.0-alpha"));
+		Assert.assertTrue(Version.isValid("1.0.0-alpha.1"));
+		Assert.assertTrue(Version.isValid("1.0.0-0.3.7"));
+		Assert.assertTrue(Version.isValid("1.0.0-x.7.z.92"));
+		Assert.assertFalse(Version.isValid("1.0.0-x.7-z.92"));
+		Assert.assertFalse(Version.isValid("1.0.0-00.3.7"));
+		Assert.assertFalse(Version.isValid("1.0.0-0.03.7"));
+		Assert.assertTrue(Version.isValid("1.0.0-alpha+001"));
+		Assert.assertTrue(Version.isValid("1.0.0+20130313144700"));
+		Assert.assertTrue(Version.isValid("1.0.0-beta+exp.sha.5114f85"));
+		Assert.assertFalse(Version.isValid(" 1.0.0"));
+		Assert.assertFalse(Version.isValid("1. 0.0"));
+		Assert.assertFalse(Version.isValid("1.0 .0"));
+		Assert.assertFalse(Version.isValid("1.0.0 "));
+		Assert.assertFalse(Version.isValid("1.0.0-a_b"));
+		Assert.assertFalse(Version.isValid("1.0.0+"));
+		Assert.assertFalse(Version.isValid("1.0.0-"));
+		Assert.assertFalse(Version.isValid("1.0.0-+a"));
+		Assert.assertFalse(Version.isValid("1.0.0-a+"));
+		Assert.assertFalse(Version.isValid("1.0"));
+		Assert.assertFalse(Version.isValid("1.0-1.0"));
+	}
 }
