@@ -195,6 +195,7 @@ public class Version implements Comparable<Version> {
 	public static Version valueOf(String versionStr) throws VersionFormatException {
 		if(versionStr == null) throw new VersionFormatException("null");
 		if(versionStr.isEmpty()) throw new VersionFormatException("empty");
+		if(!Version.isValid(versionStr)) VersionFormatException.forInputString(versionStr);
 		
 		final char[] versionChars = versionStr.toCharArray();
 		int begin = 0;
@@ -242,5 +243,90 @@ public class Version implements Comparable<Version> {
 		}
 		
 		return i;
+	}
+	
+	/**
+	 * Validates a version string according to the specification
+	 */
+	public static boolean isValid(String version) {
+		// Format: a.b.c-prerelease+build
+		
+		// a
+		int sepIdx = version.indexOf('.');
+		if(sepIdx < 0) return false;
+		if(!isNumber(subStr(version, 0, sepIdx))) return false;
+		
+		// b
+		version = subStr(version, sepIdx + 1);
+		sepIdx = version.indexOf('.');
+		if(sepIdx < 0) return false;
+		if(!isNumber(subStr(version, 0, sepIdx))) return false;
+		
+		// c
+		version = subStr(version, sepIdx + 1);
+		sepIdx = version.indexOf('-');
+		if(sepIdx < 0) sepIdx = version.indexOf('+');
+		if(sepIdx < 0) sepIdx = version.length();
+		if(!isNumber(subStr(version, 0, sepIdx))) return false;
+		
+		// prerelease
+		version = subStr(version, sepIdx);
+		if(!version.isEmpty() && version.charAt(0) == '-') {
+			sepIdx = version.indexOf('+');
+			if(sepIdx < 0) sepIdx = version.length();
+			if(!isIdentifier(subStr(version, 1, sepIdx), false)) return false;
+			version = subStr(version, sepIdx);
+		}
+		
+		if(!version.isEmpty() && version.charAt(0) == '+') {
+			if(!isIdentifier(subStr(version, 1), true)) return false;
+			version = "";
+		}
+		
+		return version.isEmpty();
+	}
+	
+	private static boolean isNumber(String str) {
+		boolean result = true;
+		
+		for(char c : str.toCharArray()) {
+			if(!Character.isDigit(c)) {
+				result = false;
+				break;
+			}
+		}
+		
+		result = result && (str.equals("0") || !str.startsWith("0"));
+		
+		return result;
+	}
+	
+	private static boolean isIdentifier(String str, boolean leadingZero) {
+		if(str.isEmpty()) return false;
+		if(str.startsWith(".") || str.endsWith(".")) return false;
+		
+		for(String part : str.split("\\.")) {
+			try {
+				Integer.parseInt(part);
+				if(!leadingZero && part.startsWith("0") && !part.equals("0")) return false;
+			} catch(NumberFormatException e) {
+				for(char c : part.toCharArray()) {
+					if(!Character.isAlphabetic(c) && !Character.isDigit(c)) return false;
+				}
+			}
+		}
+		
+		return true;
+	}
+	
+	private static String subStr(String str, int start, int end) {
+		if(start >= str.length()) return "";
+		if(end > str.length()) return str.substring(start);
+		else return str.substring(start, end);
+	}
+	
+	private static String subStr(String str, int start) {
+		if(start >= str.length()) return "";
+		return str.substring(start);
 	}
 }
