@@ -12,6 +12,7 @@
 package net.hobbysw.semver;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,18 +21,22 @@ import java.util.List;
  * @author Christian Hartung
  *
  */
-public class Version implements Comparable<Version> {
-	private int major;
-	private int minor;
-	private int patch;
-	private List<String> preReleaseIdentifiers = new ArrayList<String>();
-	private List<String> buildMetadata = new ArrayList<String>();
+public final class Version implements Comparable<Version> {
+	private final int major;
+	private final int minor;
+	private final int patch;
+	private final List<String> preReleaseIdentifiers = new ArrayList<String>();
+	private final List<String> buildMetadata = new ArrayList<String>();
 	
 	/**
-	 * Constructs a new <code>Version</code> with 0.0.0 as value
+	 * Constructs a new <code>Version</code> with the specified value
+	 * 
+	 * @param major the MAJOR version
+	 * @param minor the MINOR version
+	 * @param patch the PATCH version
 	 */
-	public Version() {
-		this(0, 0, 0);
+	public Version(final int major, final int minor, final int patch) {
+		this(major, minor, patch, null);
 	}
 	
 	/**
@@ -40,72 +45,71 @@ public class Version implements Comparable<Version> {
 	 * @param major the MAJOR version
 	 * @param minor the MINOR version
 	 * @param patch the PATCH version
-	 * 
-	 * @see	#setMajor
-	 * @see #setMinor
-	 * @see #setPatch
+	 * @param buildMetadata the build metadata associated to this version
 	 */
-	public Version(int major, int minor, int patch) {
+	public Version(final int major, final int minor, final int patch, final List<String> buildMetadata) {
+		this(major, minor, patch, buildMetadata, null);
+	}
+	
+	/**
+	 * Constructs a new <code>Version</code> with the specified value
+	 * 
+	 * @param major the MAJOR version
+	 * @param minor the MINOR version
+	 * @param patch the PATCH version
+	 * @param buildMetadata the build metadata associated to this version
+	 * @param preReleaseIdentifiers the list of pre-release identifiers
+	 */
+	public Version(final int major, final int minor, final int patch, final List<String> buildMetadata, final List<String> preReleaseIdentifiers) {
 		this.major = major;
 		this.minor = minor;
 		this.patch = patch;
+		
+		if(buildMetadata != null) {
+			this.buildMetadata.addAll(buildMetadata);
+		}
+		
+		if(preReleaseIdentifiers != null) {
+			this.buildMetadata.addAll(preReleaseIdentifiers);
+		}
 	}
 	
 	/**
 	 * Gets the MAJOR version
 	 * 
 	 * @return the MAJOR version number, which should be greater than or equal 0
-	 * @see	#setMajor
 	 */
 	public int getMajor() {
 		return major;
 	}
 	
 	/**
-	 * Sets the MAJOR version, which should be changed when you make incompatible API changes.
-	 *  
-	 * @param major the MAJOR version number, which must be an integer greater than or equal 0
-	 */
-	public void setMajor(int major) {
-		this.major = major;
-	}
-	
-	/**
 	 * Gets de MINOR version
 	 * 
 	 * @return the MINOR version number, which should be greater than or equal 0
-	 * @see	#setMinor
 	 */
 	public int getMinor() {
 		return minor;
 	}
 	
 	/**
-	 * Sets the MINOR version, which should be changed when you add functionality in a backwards-compatible manner.
-	 *  
-	 * @param minor the MINOR version number, which must be an integer greater than or equal 0
-	 */
-	public void setMinor(int minor) {
-		this.minor = minor;
-	}
-	
-	/**
 	 * Gets de PATCH version
 	 * 
 	 * @return the PATCH version number, which should be greater than or equal 0
-	 * @see	#setPatch
 	 */
 	public int getPatch() {
 		return patch;
 	}
 	
 	/**
-	 * Sets the PATCH version, which should be changed when you make backwards-compatible bug fixes.
-	 *  
-	 * @param minor the PATCH version number, which must be an integer greater than or equal 0
+	 * Gets the build metadata associated to this version.
+	 * 
+	 * Build metadata is ignored when determining version precedence.
+	 * 
+	 * @return the list of build metadata
 	 */
-	public void setPatch(int patch) {
-		this.patch = patch;
+	public List<String> getBuildMetadata() {
+		return Collections.unmodifiableList(buildMetadata);
 	}
 	
 	/**
@@ -117,18 +121,47 @@ public class Version implements Comparable<Version> {
 	 * @return the list of pre-release identifiers.
 	 */
 	public List<String> getPreReleaseIdentifiers() {
-		return preReleaseIdentifiers;
+		return Collections.unmodifiableList(preReleaseIdentifiers);
 	}
 	
 	/**
-	 * Gets the build metadata associated to this version.
+	 * Returns a copy of this version with the major version number altered. If the resulting version is invalid, an exception is thrown.
 	 * 
-	 * Build metadata is ignored when determining version precedence.
+	 * <p>This instance is immutable and unaffected by this method call.</p>
 	 * 
-	 * @return the list of build metadata
+	 * @param major the major version number to set in the result
+	 * @return a {@code Version} based on this version with the requested major version number, not null
+	 * @throws VersionFormatException if the major version number is invalid
 	 */
-	public List<String> getBuildMetadata() {
-		return buildMetadata;
+	public Version withMajor(final int major) {
+		if(major < 0) throw new VersionFormatException();
+		return new Version(major, this.minor, this.patch, this.buildMetadata, this.preReleaseIdentifiers);
+	}
+	
+	/**
+	 * Returns a copy of this version with the minor version number altered. If the resulting version is invalid, an exception is thrown.
+	 * 
+	 * <p>This instance is immutable and unaffected by this method call.</p>
+	 * 
+	 * @param minor the minor version number to set in the result
+	 * @return a {@code Version} based on this version with the requested minor version number, not null
+	 * @throws VersionFormatException if the minor version number is invalid
+	 */
+	public Version withMinor(final int minor) {
+		return new Version(this.major, minor, this.patch, this.buildMetadata, this.preReleaseIdentifiers);
+	}
+	
+	/**
+	 * Returns a copy of this version with the patch version number altered. If the resulting version is invalid, an exception is thrown.
+	 * 
+	 * <p>This instance is immutable and unaffected by this method call.</p>
+	 * 
+	 * @param patch the patch version number to set in the result
+	 * @return a {@code Version} based on this version with the requested patch version number, not null
+	 * @throws VersionFormatException if the patch version number is invalid
+	 */
+	public Version withPatch(final int patch) {
+		return new Version(this.major, this.minor, patch, this.buildMetadata, this.preReleaseIdentifiers);
 	}
 
 	@Override
@@ -205,7 +238,11 @@ public class Version implements Comparable<Version> {
 		boolean build = false;
 		boolean pr = false;
 		
-		Version result = new Version(-1, -1, -1);
+		int major = -1;
+		int minor = -1;
+		int patch = -1;
+		List<String> buildMetadata = new ArrayList<String>();
+		List<String> preReleaseIdentifiers = new ArrayList<String>();
 		
 		while(++current <= len) {
 			if(current == len || versionChars[current] == '.' || versionChars[current]== '-' || versionChars[current] == '+') {
@@ -213,14 +250,14 @@ public class Version implements Comparable<Version> {
 				begin = current + 1;
 				
 				if(pr) {
-					result.preReleaseIdentifiers.add(buf);
+					preReleaseIdentifiers.add(buf);
 				} else if(build) {
-					result.buildMetadata.add(buf);
+					buildMetadata.add(buf);
 				} else {
 					int val = Integer.parseInt(buf);
-					if(result.major < 0) result.major = val;
-					else if(result.minor < 0) result.minor = val;
-					else if(result.patch < 0) result.patch = val;
+					if(major < 0) major = val;
+					else if(minor < 0) minor = val;
+					else if(patch < 0) patch = val;
 					else throw VersionFormatException.forInputString(versionStr);
 				}
 				
@@ -231,7 +268,7 @@ public class Version implements Comparable<Version> {
 			}
 		}
 		
-		return result;
+		return new Version(major, minor, patch, buildMetadata, preReleaseIdentifiers);
 	}
 
 	@Override
