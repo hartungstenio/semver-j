@@ -18,7 +18,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class ComparisonHelpersTest extends Version {
+public class ComparisonHelpersTest {
 	private static List<String> EMPTY_LIST = Collections.emptyList();
 	
 	@Test
