@@ -70,7 +70,7 @@ public final class Version implements Comparable<Version> {
 		}
 		
 		if(preReleaseIdentifiers != null) {
-			this.buildMetadata.addAll(preReleaseIdentifiers);
+			this.preReleaseIdentifiers.addAll(preReleaseIdentifiers);
 		}
 	}
 	
@@ -270,8 +270,7 @@ public final class Version implements Comparable<Version> {
 		
 		return new Version(major, minor, patch, buildMetadata, preReleaseIdentifiers);
 	}
-
-	@Override
+	
 	public int compareTo(Version other) {
 		int i = ComparisonHelpers.compareVersionNumbers(this, other);
 		
@@ -284,6 +283,9 @@ public final class Version implements Comparable<Version> {
 	
 	/**
 	 * Validates a version string according to the specification
+	 * 
+	 * @param version The version string to test
+	 * @return {@code true} if the version is valid. {@code false} otherwise.
 	 */
 	public static boolean isValid(String version) {
 		// Format: a.b.c-prerelease+build
