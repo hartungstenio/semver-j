@@ -8,5 +8,7 @@ image: maven:3.5.0
 pipelines:
   default:
     - step:
+        caches:
+          - maven
         script: 
           - mvn verify javadoc:javadoc
