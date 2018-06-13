@@ -1,8 +1,0 @@
-SemVer-J
-Copyright 2014-2015 Christian Hartung
-
-This product includes software developed by
-Christian Hartung (https://bitbucket.org/hartungstenio).
-
-This product follows the guidelines described by
-Tom Preston-Werner in Semantic Versioning 2.0.0 (http://semver.org/).

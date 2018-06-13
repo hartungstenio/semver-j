@@ -26,26 +26,14 @@ version.getPatch(); // 0
 version.getPreReleaseIdentifiers(); // [alpha, 1]
 version.getBuildMetadata(); // []
 
-// Create by setting properties explicitly
-Version other = new Version();
-other.setMajor(1);
-other.setMinor(0);
-other.setPatch(0);
-other.getPreReleaseIdentifiers().add("alpha");
-other.getPreReleaseIdentifiers().add("1");
-other.getBuildMetadata().add("first");
-
-// Are both the same version?
-VersionComparator comparer = new VersionComparator();
-comparer.compare(version, other); // same version - build metadata ignored
-
-other.getPreReleaseIdentifiers().remove(1);
-comparer.compare(version, other); // version greater than other
+// Are the versions compatible?
+CompatibleComparator comparer = new CompatibleComparator();
+comparer.compare(version, other); // compatible versions (same version major version)
 ```
 
 ## Problems?
 
-If you find any issues please [report them](https://bitbucket.org/chrishartung/semver-j/issues) or better, send a [pull request](https://bitbucket.org/chrishartung/semver-j/pull-requests).
+If you find any issues please [report them](https://github.com/hartungstenio/semver-j/issues) or better, send a [pull request](https://github.com/hartungstenio/semver-j/pulls).
 
 ## Authors:
 * Christian Hartung
