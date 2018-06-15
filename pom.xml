@@ -9,23 +9,23 @@
   <description>Semantic Versioning - Java Edition</description>
   
   <issueManagement>
-  	<url>https://bitbucket.org/chrishartung/semver-j/issues</url>
-  	<system>BitBucket</system>
+  	<url>https://github.com/hartungstenio/semver-j/issues</url>
+  	<system>GitHub</system>
   </issueManagement>
   
-  <url>https://bitbucket.org/chrishartung/semver-j</url>
+  <url>https://github.com/hartungstenio/semver-j/issues</url>
   
   <licenses>
   	<license>
   		<name>The MIT License</name>
-  		<url>https://bitbucket.org/chrishartung/semver-j/raw/tip/LICENSE.txt?at=default</url>
+  		<url>https://github.com/hartungstenio/semver-j/blob/master/LICENSE.txt</url>
   	</license>
   </licenses>
   
   <developers>
   	<developer>
   		<id>hartungstenio</id>
-  		<email>chrishartung@outlook.com</email>
+  		<email>hartungstenio@outlook.com</email>
   		<roles>
   			<role>architect</role>
   			<role>developer</role>
@@ -34,10 +34,9 @@
   	</developer>
   </developers>
   
-  <scm>
-  	<connection>scm:hg:https://chrishartung@bitbucket.org/chrishartung/semver-j</connection>
-  	<url>https://bitbucket.org/chrishartung/semver-j/src</url>
-  </scm>
+  <properties>
+    <java.version>1.8</java.version>
+  </properties>
   
   <dependencies>
   	<!-- Test -->
@@ -48,4 +47,21 @@
          <scope>test</scope>
      </dependency>
   </dependencies>
+  
+  <build>
+    <pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </pluginManagement>
+  </build>
 </project>
