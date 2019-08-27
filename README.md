@@ -1,3 +1,7 @@
+[![Hits-of-Code](https://hitsofcode.com/github/hartungstenio/semver-j)](https://hitsofcode.com/hartungstenio/semver-j)
+[![Actions Status](https://github.com/hartungstenio/semver-j/workflows/run_tests/badge.svg)](https://github.com/hartungstenio/semver-j/actions)
+
+
 # SemVer-J
 A Java API for parsing and checking [Semantic Versioning](http://semver.org/).
 
