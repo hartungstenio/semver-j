@@ -1,11 +1,15 @@
 package io.github.hartungstenio.semver;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.stream.IntStream;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SemVerTest {
     private final String[] ASCENDING_LIST_OF_VERSION_STRINGS = { 
@@ -36,37 +40,35 @@ public class SemVerTest {
             SemVer.of(1, 0, 0, Collections.emptyList(), Arrays.asList("20130313144700"))
     };
     
-    @Test(expected=SemVerException.class)
+    @Test
     public void invalidMajorVersionShouldThrowException() {
-        SemVer.of(-1, 0, 0);
+        assertThrows(SemVerException.class, () -> SemVer.of(-1, 0, 0));
     }
     
-    @Test(expected=SemVerException.class)
     public void invalidMinorVersionShouldThrowException() {
-        SemVer.of(0, -1, 0);
+        assertThrows(SemVerException.class, () -> SemVer.of(0, -1, 0));
     }
     
-    @Test(expected=SemVerException.class)
     public void invalidPatchVersionShouldThrowException() {
-        SemVer.of(0, 0, -1);
+        assertThrows(SemVerException.class, () -> SemVer.of(0, 0, -1));
     }
     
     @Test
     public void versionsShouldBePreReleases() {
-        Assert.assertTrue(SemVer.of(0, 0, 1).isPreRelease());
-        Assert.assertTrue(SemVer.of(1, 0, 0, "alpha").isPreRelease());
+        assertTrue(SemVer.of(0, 0, 1).isPreRelease());
+        assertTrue(SemVer.of(1, 0, 0, "alpha").isPreRelease());
     }
     
     @Test
     public void versionsShouldNotBePreReleases() {
-        Assert.assertFalse(SemVer.of(1, 0, 0).isPreRelease());
+        assertFalse(SemVer.of(1, 0, 0).isPreRelease());
     }
     
     @Test
     public void versionParsingShouldBeEqualToActualVersion() {
         IntStream.range(0, ASCENDING_LIST_OF_VERSION_STRINGS.length)
             .forEach(i -> {
-                Assert.assertEquals(ASCENDING_LIST_OF_VERSION_STRINGS[i], ASCENDING_LIST_OF_VERSIONS[i], SemVer.parse(ASCENDING_LIST_OF_VERSION_STRINGS[i]));
+                assertEquals(ASCENDING_LIST_OF_VERSIONS[i], SemVer.parse(ASCENDING_LIST_OF_VERSION_STRINGS[i]), ASCENDING_LIST_OF_VERSION_STRINGS[i]);
             });
     }
     
@@ -74,7 +76,7 @@ public class SemVerTest {
     public void precedenceCheck() {
         IntStream.range(0, ASCENDING_LIST_OF_VERSIONS.length - 1)
             .forEach(i -> {
-                Assert.assertTrue(ASCENDING_LIST_OF_VERSION_STRINGS[i], ASCENDING_LIST_OF_VERSIONS[i].compareTo(ASCENDING_LIST_OF_VERSIONS[i + 1]) <= 0);
+                assertTrue(ASCENDING_LIST_OF_VERSIONS[i].compareTo(ASCENDING_LIST_OF_VERSIONS[i + 1]) <= 0, ASCENDING_LIST_OF_VERSION_STRINGS[i]);
             });
     }
     
@@ -82,7 +84,7 @@ public class SemVerTest {
     public void stringConversionCheck() {
         IntStream.range(0, ASCENDING_LIST_OF_VERSION_STRINGS.length - 1)
         .forEach(i -> {
-            Assert.assertEquals(ASCENDING_LIST_OF_VERSION_STRINGS[i], SemVer.parse(ASCENDING_LIST_OF_VERSION_STRINGS[i]), ASCENDING_LIST_OF_VERSIONS[i]);
+            assertEquals(SemVer.parse(ASCENDING_LIST_OF_VERSION_STRINGS[i]), ASCENDING_LIST_OF_VERSIONS[i], ASCENDING_LIST_OF_VERSION_STRINGS[i]);
         });
     }
 }
