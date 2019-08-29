@@ -1,51 +1,66 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  
-  <groupId>net.hobbysw</groupId>
-  <artifactId>semver</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  
-  <name>SemVer-J</name>
-  <description>Semantic Versioning - Java Edition</description>
-  
-  <issueManagement>
-  	<url>https://github.com/hartungstenio/semver-j/issues</url>
-  	<system>GitHub</system>
-  </issueManagement>
-  
-  <url>https://github.com/hartungstenio/semver-j/issues</url>
-  
-  <licenses>
-  	<license>
-  		<name>The MIT License</name>
-  		<url>https://github.com/hartungstenio/semver-j/blob/master/LICENSE.txt</url>
-  	</license>
-  </licenses>
-  
-  <developers>
-  	<developer>
-  		<id>hartungstenio</id>
-  		<email>hartungstenio@outlook.com</email>
-  		<roles>
-  			<role>architect</role>
-  			<role>developer</role>
-  		</roles>
-  		<timezone>America/Sao_Paulo</timezone>
-  	</developer>
-  </developers>
-  
-  <properties>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-  </properties>
-  
-  <dependencies>
-  	<!-- Test -->
-     <dependency>
-         <groupId>junit</groupId>
-         <artifactId>junit</artifactId>
-         <version>4.12</version>
-         <scope>test</scope>
-     </dependency>
-  </dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.hobbysw</groupId>
+	<artifactId>semver</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<name>SemVer-J</name>
+	<description>Semantic Versioning - Java Edition</description>
+
+	<issueManagement>
+		<url>https://github.com/hartungstenio/semver-j/issues</url>
+		<system>GitHub</system>
+	</issueManagement>
+
+	<url>https://github.com/hartungstenio/semver-j/issues</url>
+
+	<licenses>
+		<license>
+			<name>The MIT License</name>
+			<url>https://github.com/hartungstenio/semver-j/blob/master/LICENSE.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>hartungstenio</id>
+			<email>hartungstenio@outlook.com</email>
+			<roles>
+				<role>architect</role>
+				<role>developer</role>
+			</roles>
+			<timezone>America/Sao_Paulo</timezone>
+		</developer>
+	</developers>
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<!-- Test -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.5.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+			</plugin>
+		</plugins>
+	</build>
 </project>
